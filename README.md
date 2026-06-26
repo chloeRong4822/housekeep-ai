@@ -1,104 +1,156 @@
-# 家政AI获客中台 (HouseKeep-AI)
+# 🏠 家政AI获客中台 (HouseKeep-AI)
 
-家政行业的AI智能获客引擎。帮助家政公司低成本、规模化、精准化地获取雇主客户。
+> **AI驱动的家政行业智能获客引擎**
+>
+> 让每一家家政公司都能用AI低成本找到客户。
 
-## 核心功能
+[![CI/CD](https://github.com/chloeRong4822/housekeep-ai/actions/workflows/ci.yml/badge.svg)](https://github.com/chloeRong4822/housekeep-ai/actions)
+[![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.111-009688.svg)](https://fastapi.tiangolo.com/)
+[![Vue 3](https://img.shields.io/badge/Vue-3.4-4FC08D.svg)](https://vuejs.org/)
 
-- **AIGC内容引擎**：自动生成小红书/抖音爆款内容
-- **线索质量评分**：AI评估雇主需求的成交概率
-- **智能分发引擎**：将线索精准分配给最可能成交的家政公司
-- **家政公司SaaS后台**：完整的获客管理工具
-- **雇主小程序**：需求发布、阿姨浏览入口
+---
 
-## 技术栈
+## ✨ 核心功能
 
-- **后端**：Python + FastAPI
-- **数据库**：PostgreSQL + Redis
-- **AI模型**：OpenAI GPT-4 / Claude API
-- **搜索**：Elasticsearch
-- **部署**：Docker + Docker Compose
+| 模块 | 功能 | 技术亮点 |
+|------|------|----------|
+| 🤖 **AIGC内容引擎** | 一键生成小红书/抖音爆款内容 | GPT-4/Claude + Prompt模板库 |
+| 📊 **线索质量评分** | AI评估雇主需求成交概率 | 14条规则 + NLP意图分析 |
+| 🎯 **智能分发引擎** | 把线索精准分配给最优家政公司 | 6因子加权匹配 + 动态定价 |
+| 📈 **数据预测模型** | 预测各区域供需趋势 | 时间序列 + 机器学习 |
 
-## 快速开始
+---
 
-### 1. 环境准备
+## 🏗️ 系统架构
 
-```bash
-# 复制环境变量模板
-cp .env.example .env
-# 编辑 .env 填入你的配置
+```
+┌──────────────┐      ┌──────────────┐      ┌──────────────┐
+│  雇主小程序   │◄────►│  FastAPI     │◄────►│  Vue3 SaaS   │
+│  (需求入口)   │      │  AI引擎      │      │  公司管理端   │
+└──────────────┘      └──────────────┘      └──────────────┘
+                            │
+            ┌───────────────┼───────────────┐
+            ▼               ▼               ▼
+      PostgreSQL        Redis           OpenAI/Claude
+      (业务数据)       (缓存)            (AI能力)
 ```
 
-### 2. 本地开发
+---
+
+## 🚀 快速开始
+
+### 1. 克隆项目
 
 ```bash
-# 创建虚拟环境
-python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
+git clone https://github.com/chloeRong4822/housekeep-ai.git
+cd housekeep-ai
+```
 
-# 安装依赖
+### 2. 启动后端（Docker）
+
+```bash
+docker-compose up -d          # 启动PostgreSQL + Redis
 pip install -r requirements.txt
-
-# 初始化数据库
-python scripts/init_db.py
-
-# 启动服务
-uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+cp .env.example .env
+# 编辑 .env 填入 OPENAI_API_KEY
+python scripts/init_db.py     # 初始化数据库
+uvicorn app.main:app --reload  # 启动API
 ```
 
-### 3. Docker部署
+API文档：`http://localhost:8000/docs`
+
+### 3. 启动SaaS后台
 
 ```bash
-docker-compose up -d
+cd frontend/saas
+npm install
+npm run dev
 ```
 
-## API文档
+访问：`http://localhost:5173`
 
-启动后访问：
-- Swagger UI: http://localhost:8000/docs
-- ReDoc: http://localhost:8000/redoc
+### 4. 打开微信小程序
 
-## 项目结构
+用微信开发者工具打开 `frontend/miniprogram` 目录。
+
+---
+
+## 📡 核心API
+
+| 接口 | 方法 | 功能 |
+|------|------|------|
+| `/api/v1/housekeeping/leads/create` | POST | 雇主发布需求 → AI评分 → 自动分发 |
+| `/api/v1/housekeeping/contents/generate` | POST | AI生成营销内容 |
+| `/api/v1/housekeeping/dashboard/overview` | GET | 数据看板总览 |
+
+[查看完整API示例 →](API_EXAMPLES.md)
+
+---
+
+## 📁 项目结构
 
 ```
 housekeep-ai/
-├── app/
-│   ├── main.py              # FastAPI应用入口
-│   ├── config.py            # 配置管理
-│   ├── database.py          # 数据库连接
-│   ├── models/              # SQLAlchemy数据模型
-│   ├── routers/             # API路由
-│   ├── services/            # 业务逻辑层
-│   ├── schemas/             # Pydantic数据校验
-│   └── utils/               # 工具函数
-├── frontend/                # 前端代码
-├── scripts/                 # 脚本工具
-├── docker-compose.yml       # Docker编排
-├── Dockerfile               # 容器镜像
-└── requirements.txt         # Python依赖
+├── app/                    # FastAPI后端
+│   ├── models/             # SQLAlchemy数据模型
+│   ├── services/           # ⭐ 核心AI引擎（3个）
+│   ├── routers/            # API路由
+│   └── schemas/            # Pydantic数据校验
+├── frontend/
+│   ├── saas/               # Vue3家政公司后台
+│   └── miniprogram/        # 雇主微信小程序
+├── deploy/                 # 生产部署配置
+└── .github/workflows/      # CI/CD自动部署
 ```
 
-## 核心模块说明
+[查看技术交接文档 →](TECH-HANDOVER.md)
 
-### AIGC内容引擎 (services/ai_content.py)
-基于大模型API自动生成家政行业营销内容，支持小红书、抖音、朋友圈等平台。
+---
 
-### 线索评分引擎 (services/lead_scoring.py)
-多维度评估雇主需求质量：需求完整度、文本意图、行为数据、历史成交率。
+## 🛠️ 技术栈
 
-### 智能分发引擎 (services/lead_dispatch.py)
-根据区域、服务类型、预算、响应速度、历史成交率等因子，将线索分配给最优家政公司。
+- **后端**：Python 3.11 + FastAPI + SQLAlchemy + Alembic
+- **数据库**：PostgreSQL 15 + Redis 7
+- **AI**：OpenAI GPT-4 / Claude API
+- **前端**：Vue 3 + Vite + Element Plus + ECharts
+- **小程序**：微信小程序原生
+- **部署**：Docker + Docker Compose + Nginx
+- **CI/CD**：GitHub Actions
 
-### 需求预测模型 (services/prediction.py)
-预测各区域各类阿姨的供需趋势，指导家政公司提前布局。
+---
 
-## 路线图
+## 🗺️ 路线图
 
-- [x] MVP核心功能
-- [ ] 微信小程序雇主端
-- [ ] SaaS后台管理端
+- [x] MVP核心功能（后端API + SaaS后台 + 小程序）
+- [x] AIGC内容引擎
+- [x] 线索评分与分发
+- [x] Docker部署配置
+- [x] GitHub Actions CI/CD
+- [ ] 微信小程序上线
 - [ ] 强化学习优化分发
 - [ ] 多行业扩展（教培/装修）
 
-## License
+---
+
+## 📄 文档
+
+- [技术交接文档](TECH-HANDOVER.md) - 给技术合伙人的详细指南
+- [部署指南](DEPLOY.md) - 生产环境部署（Docker/裸机/自动部署）
+- [API示例](API_EXAMPLES.md) - 接口调用示例
+
+---
+
+## 🤝 贡献
+
+欢迎提交Issue和PR！
+
+---
+
+## 📜 License
 
 MIT
+
+---
+
+*用AI重构万亿家政市场 🚀*
