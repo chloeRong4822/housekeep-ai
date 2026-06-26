@@ -1,0 +1,68 @@
+<view class="container">
+  <!-- 搜索栏 -->
+  <view class="search-bar" bindtap="onSearchTap">
+    <view class="search-input">
+      <text class="search-icon">🔍</text>
+      <text class="search-placeholder">搜索育儿嫂、月嫂、保洁...</text>
+    </view>
+  </view>
+
+  <!-- Banner -->
+  <swiper class="banner" indicator-dots autoplay circular interval="3000">
+    <swiper-item wx:for="{{banners}}" wx:key="index">
+      <view class="banner-item" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
+        <text class="banner-title">{{item.title}}</text>
+        <text class="banner-sub">AI智能匹配 · 真实评价 · 安心服务</text>
+      </view>
+    </swiper-item>
+  </swiper>
+
+  <!-- 快速发布 -->
+  <view class="quick-post" bindtap="onPostTap">
+    <view class="quick-post-left">
+      <text class="quick-post-title">📢 发布找阿姨需求</text>
+      <text class="quick-post-desc">AI智能匹配，最快10分钟响应</text>
+    </view>
+    <view class="quick-post-btn">立即发布></view>
+  </view>
+
+  <!-- 分类入口 -->
+  <view class="category-grid">
+    <view class="category-item" wx:for="{{categories}}" wx:key="type" bindtap="onCategoryTap" data-type="{{item.type}}">
+      <text class="category-icon">{{item.icon}}</text>
+      <text class="category-name">{{item.name}}</text>
+    </view>
+  </view>
+
+  <!-- 热门标签 -->
+  <view class="hot-tags">
+    <text class="hot-tags-title">热门筛选</text>
+    <view class="tag-list">
+      <text class="tag tag-primary" wx:for="{{hotTags}}" wx:key="*this" bindtap="onTagTap" data-tag="{{item}}">{{item}}</text>
+    </view>
+  </view>
+
+  <!-- 推荐家政公司 -->
+  <view class="section-title">推荐家政公司</view>
+  <view class="company-list">
+    <view class="company-card" wx:for="{{companies}}" wx:key="id" bindtap="onCompanyTap" data-id="{{item.id}}">
+      <view class="company-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
+        <text class="company-img-text">{{item.name[0]}}</text>
+      </view>
+      <view class="company-info">
+        <view class="company-name-row">
+          <text class="company-name">{{item.name}}</text>
+          <text class="company-rating">⭐ {{item.rating}}</text>
+        </view>
+        <view class="company-tags">
+          <text class="tag tag-success" wx:for="{{item.tags}}" wx:key="*this">{{item}}</text>
+        </view>
+        <view class="company-intro">{{item.intro}}</view>
+        <view class="company-meta">
+          <text class="text-gray">已服务{{item.orders}}单</text>
+          <text class="text-gray">{{item.distance}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

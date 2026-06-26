@@ -1,0 +1,68 @@
+<view class="container">
+  <!-- 公司信息 -->
+  <view class="company-header">
+    <view class="company-header-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
+      <text class="company-header-text">{{company.name[0]}}</text>
+    </view>
+    <view class="company-header-info">
+      <view class="company-header-name">{{company.name}}</view>
+      <view class="company-header-rating">⭐ {{company.rating}} · 已服务{{company.orders}}单</view>
+      <view class="company-header-tags">
+        <text class="tag tag-success" wx:for="{{company.tags}}" wx:key="*this">{{item}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 简介 -->
+  <view class="card">
+    <view class="card-title">公司简介</view>
+    <view class="company-intro">{{company.intro}}</view>
+    <view class="service-areas">
+      <text class="area-label">服务区域：</text>
+      <text class="area-item" wx:for="{{company.service_areas}}" wx:key="*this">{{item}}</text>
+    </view>
+  </view>
+
+  <!-- Tab切换 -->
+  <view class="tab-bar">
+    <view class="tab-item {{activeTab === 'nannies' ? 'active' : ''}}" bindtap="onTabChange" data-tab="nannies">阿姨列表</view>
+    <view class="tab-item {{activeTab === 'reviews' ? 'active' : ''}}" bindtap="onTabChange" data-tab="reviews">用户评价</view>
+  </view>
+
+  <!-- 阿姨列表 -->
+  <view wx:if="{{activeTab === 'nannies'}}" class="nanny-list">
+    <view class="nanny-item" wx:for="{{nannies}}" wx:key="id">
+      <view class="nanny-item-avatar" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
+        <text>{{item.name[0]}}</text>
+      </view>
+      <view class="nanny-item-info">
+        <view class="nanny-item-name">{{item.name}} · {{item.age}}岁 · {{item.work_years}}年经验</view>
+        <view class="nanny-item-tags">
+          <text class="tag tag-primary" wx:for="{{item.skills}}" wx:key="*this">{{item}}</text>
+        </view>
+        <view class="nanny-item-meta">
+          <text>⭐ {{item.rating}} · 服务过{{item.service_count}}个家庭</text>
+          <text class="nanny-item-salary">¥{{item.salary_expect}}/月</text>
+        </view>
+      </view>
+      <button class="btn-primary contact-btn" size="mini">联系</button>
+    </view>
+  </view>
+
+  <!-- 评价 -->
+  <view wx:if="{{activeTab === 'reviews'}}" class="review-list">
+    <view class="review-item" wx:for="{{reviews}}" wx:key="index">
+      <view class="review-header">
+        <text class="review-user">{{item.user}}</text>
+        <text class="review-rating">⭐ {{item.rating}}</text>
+      </view>
+      <view class="review-content">{{item.content}}</view>
+      <view class="review-date">{{item.date}}</view>
+    </view>
+  </view>
+
+  <!-- 底部操作 -->
+  <view class="bottom-bar">
+    <button class="btn-primary phone-btn" bindtap="onPhoneTap">📞 电话咨询</button>
+  </view>
+</view>

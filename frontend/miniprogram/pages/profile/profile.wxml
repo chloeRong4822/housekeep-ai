@@ -1,0 +1,81 @@
+<view class="container">
+  <!-- 用户信息 -->
+  <view class="user-card">
+    <block wx:if="{{userInfo}}">
+      <image class="user-avatar" src="{{userInfo.avatarUrl}}" mode="aspectFill" />
+      <view class="user-name">{{userInfo.nickName}}</view>
+      <view class="user-phone">138****8000</view>
+    </block>
+    <block wx:else>
+      <view class="user-avatar-placeholder" bindtap="onGetUserProfile">👤</view>
+      <view class="user-name" bindtap="onGetUserProfile">点击登录</view>
+      <view class="user-phone">登录后可查看需求记录</view>
+    </block>
+  </view>
+
+  <!-- 数据统计 -->
+  <view class="stats-bar">
+    <view class="stat-item">
+      <view class="stat-num">{{myPosts.length}}</view>
+      <view class="stat-label">发布需求</view>
+    </view>
+    <view class="stat-item">
+      <view class="stat-num">3</view>
+      <view class="stat-label">匹配公司</view>
+    </view>
+    <view class="stat-item">
+      <view class="stat-num">{{favorites.length}}</view>
+      <view class="stat-label">收藏</view>
+    </view>
+  </view>
+
+  <!-- 我的需求 -->
+  <view class="section">
+    <view class="section-title">我的需求</view>
+    <view class="post-list">
+      <view class="post-item" wx:for="{{myPosts}}" wx:key="id" bindtap="onPostTap" data-id="{{item.id}}">
+        <view class="post-header">
+          <view class="post-type">{{item.service_type}}</view>
+          <view class="post-status">{{item.status}}</view>
+        </view>
+        <view class="post-desc">{{item.statusText}}</view>
+        <view class="post-meta">
+          <text class="post-score">AI评分: {{item.ai_score}}</text>
+          <text class="post-date">{{item.created_at}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 我的收藏 -->
+  <view class="section">
+    <view class="section-title">我的收藏</view>
+    <view class="fav-list">
+      <view class="fav-item" wx:for="{{favorites}}" wx:key="id" bindtap="onContactTap" data-company="{{item}}">
+        <view class="fav-name">{{item.name}}</view>
+        <view class="fav-tags">
+          <text class="tag tag-primary" wx:for="{{item.tags}}" wx:key="*this">{{item}}</text>
+        </view>
+        <view class="fav-action">📞 联系咨询</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 设置 -->
+  <view class="section">
+    <view class="menu-list">
+      <view class="menu-item">
+        <text>联系客服</text>
+        <text class="menu-arrow">></text>
+      </view>
+      <view class="menu-item">
+        <text>关于我们</text>
+        <text class="menu-arrow">></text>
+      </view>
+      <view class="menu-item">
+        <text>意见反馈</text>
+        <text class="menu-arrow">></text>
+      </view>
+    </view>
+  </view>
+</view>

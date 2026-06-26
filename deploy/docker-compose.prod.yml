@@ -1,0 +1,62 @@
+version: "3.8"
+
+services:
+  api:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      - DATABASE_URL=postgresql://housekeep:${DB_PASSWORD}@db:5432/housekeep_ai
+      - REDIS_URL=redis://redis:6379/0
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - CLAUDE_API_KEY=${CLAUDE_API_KEY}
+      - SECRET_KEY=${SECRET_KEY}
+      - DEBUG=false
+    depends_on:
+      - db
+      - redis
+    networks:
+      - housekeep
+
+  db:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: housekeep
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: housekeep_ai
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - housekeep
+
+  redis:
+    image: redis:7-alpine
+    restart: always
+    volumes:
+      - redisdata:/data
+    networks:
+      - housekeep
+
+  nginx:
+    image: nginx:alpine
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - /var/www/housekeep-saas:/var/www/housekeep-saas
+      - ./ssl:/etc/nginx/ssl
+    depends_on:
+      - api
+    networks:
+      - housekeep
+
+volumes:
+  pgdata:
+  redisdata:
+
+networks:
+  housekeep:

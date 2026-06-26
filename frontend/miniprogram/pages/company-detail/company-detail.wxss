@@ -1,0 +1,166 @@
+.company-header {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 32rpx;
+  display: flex;
+  gap: 24rpx;
+  margin-bottom: 20rpx;
+}
+.company-header-image {
+  width: 140rpx;
+  height: 140rpx;
+  border-radius: 16rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.company-header-text {
+  font-size: 56rpx;
+  font-weight: bold;
+  color: #fff;
+}
+.company-header-info { flex: 1; }
+.company-header-name {
+  font-size: 36rpx;
+  font-weight: bold;
+  margin-bottom: 8rpx;
+}
+.company-header-rating {
+  font-size: 26rpx;
+  color: #e6a23c;
+  margin-bottom: 8rpx;
+}
+.company-header-tags { display: flex; gap: 8rpx; }
+
+.card {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  margin-bottom: 20rpx;
+}
+.card-title {
+  font-size: 30rpx;
+  font-weight: bold;
+  margin-bottom: 12rpx;
+}
+.company-intro {
+  font-size: 28rpx;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 12rpx;
+}
+.service-areas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8rpx;
+}
+.area-label { font-size: 26rpx; color: #999; }
+.area-item {
+  font-size: 24rpx;
+  color: #667eea;
+  background: #e6f0ff;
+  padding: 4rpx 12rpx;
+  border-radius: 8rpx;
+}
+
+.tab-bar {
+  display: flex;
+  background: #fff;
+  border-radius: 12rpx;
+  margin-bottom: 20rpx;
+  overflow: hidden;
+}
+.tab-item {
+  flex: 1;
+  text-align: center;
+  padding: 24rpx 0;
+  font-size: 28rpx;
+  color: #666;
+  border-bottom: 4rpx solid transparent;
+}
+.tab-item.active {
+  color: #667eea;
+  border-bottom-color: #667eea;
+  font-weight: bold;
+}
+
+.nanny-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+  margin-bottom: 120rpx;
+}
+.nanny-item {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+.nanny-item-avatar {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #fff;
+  font-size: 40rpx;
+  font-weight: bold;
+}
+.nanny-item-info { flex: 1; }
+.nanny-item-name { font-size: 28rpx; font-weight: bold; margin-bottom: 8rpx; }
+.nanny-item-tags { margin-bottom: 8rpx; }
+.nanny-item-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 24rpx;
+  color: #999;
+}
+.nanny-item-salary { color: #f56c6c; font-weight: bold; }
+.contact-btn { padding: 8rpx 20rpx; font-size: 24rpx; }
+
+.review-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+  margin-bottom: 120rpx;
+}
+.review-item {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 24rpx;
+}
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12rpx;
+}
+.review-user { font-size: 28rpx; font-weight: bold; }
+.review-rating { font-size: 26rpx; color: #e6a23c; }
+.review-content {
+  font-size: 26rpx;
+  color: #555;
+  line-height: 1.5;
+  margin-bottom: 12rpx;
+}
+.review-date { font-size: 22rpx; color: #999; text-align: right; }
+
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  padding: 20rpx 32rpx;
+  box-shadow: 0 -2rpx 12rpx rgba(0,0,0,0.05);
+  display: flex;
+  gap: 20rpx;
+}
+.phone-btn {
+  flex: 1;
+}

@@ -1,0 +1,73 @@
+<view class="container">
+  <!-- 筛选栏 -->
+  <view class="filter-bar">
+    <view class="filter-item">
+      <text class="filter-label">区域</text>
+      <text class="filter-arrow">▼</text>
+    </view>
+    <view class="filter-item">
+      <text class="filter-label">类型</text>
+      <text class="filter-arrow">▼</text>
+    </view>
+    <view class="filter-item">
+      <text class="filter-label">排序</text>
+      <text class="filter-arrow">▼</text>
+    </view>
+  </view>
+
+  <!-- Tab切换 -->
+  <view class="tab-bar">
+    <view class="tab-item {{activeTab === 'company' ? 'active' : ''}}" bindtap="onTabChange" data-tab="company">
+      家政公司
+    </view>
+    <view class="tab-item {{activeTab === 'nanny' ? 'active' : ''}}" bindtap="onTabChange" data-tab="nanny">
+      找阿姨
+    </view>
+  </view>
+
+  <!-- 公司列表 -->
+  <view wx:if="{{activeTab === 'company'}}" class="list">
+    <view class="company-card" wx:for="{{companies}}" wx:key="id" bindtap="onCompanyTap" data-id="{{item.id}}">
+      <view class="company-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
+        <text class="company-img-text">{{item.name[0]}}</text>
+      </view>
+      <view class="company-info">
+        <view class="company-name-row">
+          <text class="company-name">{{item.name}}</text>
+          <text class="company-rating">⭐ {{item.rating}}</text>
+        </view>
+        <view class="company-tags">
+          <text class="tag tag-success" wx:for="{{item.tags}}" wx:key="*this">{{item}}</text>
+        </view>
+        <view class="company-intro">{{item.intro}}</view>
+        <view class="company-meta">
+          <text class="text-gray">已服务{{item.orders}}单</text>
+          <text class="text-gray">{{item.distance}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 阿姨列表 -->
+  <view wx:if="{{activeTab === 'nanny'}}" class="list">
+    <view class="nanny-card" wx:for="{{nannies}}" wx:key="id">
+      <view class="nanny-avatar" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
+        <text class="nanny-avatar-text">{{item.name[0]}}</text>
+      </view>
+      <view class="nanny-info">
+        <view class="nanny-name-row">
+          <text class="nanny-name">{{item.name}}</text>
+          <text class="nanny-rating">⭐ {{item.rating}}</text>
+        </view>
+        <view class="nanny-meta">{{item.age}}岁 · {{item.origin}} · {{item.work_years}}年经验</view>
+        <view class="nanny-tags">
+          <text class="tag tag-primary" wx:for="{{item.skills}}" wx:key="*this">{{item}}</text>
+        </view>
+        <view class="nanny-salary">期望薪资：¥{{item.salary_expect}}/月</view>
+        <view class="nanny-actions">
+          <button class="btn-primary contact-btn" size="mini">联系咨询</button>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

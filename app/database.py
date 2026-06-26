@@ -1,0 +1,25 @@
+"""数据库连接管理"""
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker, Session
+from app.config import get_settings
+
+settings = get_settings()
+
+engine = create_engine(
+    settings.database_url,
+    pool_pre_ping=True,
+    echo=settings.debug,
+)
+
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+Base = declarative_base()
+
+
+def get_db() -> Session:
+    """获取数据库会话（依赖注入用）"""
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()

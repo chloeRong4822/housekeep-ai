@@ -1,0 +1,81 @@
+<view class="container">
+  <!-- 进度条 -->
+  <view class="progress-bar">
+    <view class="progress-fill" style="width: {{step / totalSteps * 100}}%"></view>
+    <text class="progress-text">{{step}}/{{totalSteps}}</text>
+  </view>
+
+  <!-- 问题卡片 -->
+  <view class="question-card">
+    <view class="question-text">{{currentQuestion.text}}</view>
+
+    <!-- 选择类型 -->
+    <view wx:if="{{currentQuestion.type === 'select'}}" class="options-list">
+      <view
+        class="option-item {{form[currentQuestion.field] === item ? 'active' : ''}}"
+        wx:for="{{[currentQuestion.options]}}"
+        wx:for-item="optList"
+        wx:for-index="idx"
+        wx:key="idx"
+        wx:for-item="item"
+        wx:for-index="i"
+        wx:for="{{[currentQuestion.options]}}"
+        wx:for-item="item"
+        wx:key="*this"
+        bindtap="onSelect"
+        data-value="{{item}}"
+      >
+        <text wx:for="{{[currentQuestion.options]}}" wx:for-item="optList" wx:for-index="idx">
+          <block wx:for="{{optList}}" wx:for-item="item" wx:key="*this">
+            <view class="option-item {{form[currentQuestion.field] === item ? 'active' : ''}}" bindtap="onSelect" data-value="{{item}}">{{item}}</view>
+          </block>
+        </text>
+      </view>
+    </view>
+
+    <!-- 简化选择 -->
+    <view wx:if="{{currentQuestion.type === 'select'}}" class="options-list">
+      <view class="option-item {{form[currentQuestion.field] === item ? 'active' : ''}}"
+            wx:for="{{serviceTypes}}" wx:key="*this" wx:if="{{currentQuestion.field === 'service_type'}}"
+            bindtap="onSelect" data-value="{{item}}">{{item}}</view>
+      <view class="option-item {{form[currentQuestion.field] === item ? 'active' : ''}}"
+            wx:for="{{serviceForms}}" wx:key="*this" wx:if="{{currentQuestion.field === 'service_form'}}"
+            bindtap="onSelect" data-value="{{item}}">{{item}}</view>
+      <view class="option-item {{form[currentQuestion.field] === item ? 'active' : ''}}"
+            wx:for="{{districts}}" wx:key="*this" wx:if="{{currentQuestion.field === 'district'}}"
+            bindtap="onSelect" data-value="{{item}}">{{item}}</view>
+    </view>
+
+    <!-- 输入类型 -->
+    <view wx:if="{{currentQuestion.type === 'input'}}" class="input-area">
+      <input class="question-input" type="number" wx:if="{{currentQuestion.field === 'budget_max' || currentQuestion.field === 'family_size' || currentQuestion.field === 'baby_age'}}"
+             placeholder="{{currentQuestion.placeholder}}" value="{{form[currentQuestion.field]}}"
+             bindinput="onInput" />
+      <input class="question-input" type="text" wx:else
+             placeholder="{{currentQuestion.placeholder}}" value="{{form[currentQuestion.field]}}"
+             bindinput="onInput" />
+      <text wx:if="{{currentQuestion.unit}}" class="input-unit">{{currentQuestion.unit}}</text>
+      <button class="btn-primary next-btn" bindtap="nextStep">下一步</button>
+    </view>
+
+    <!-- 开关类型 -->
+    <view wx:if="{{currentQuestion.type === 'switch'}}" class="switch-area">
+      <switch checked="{{form[currentQuestion.field]}}" bindchange="onSwitchChange" color="#667eea" />
+      <button class="btn-primary next-btn" bindtap="nextStep">下一步</button>
+    </view>
+
+    <!-- 单选类型 -->
+    <view wx:if="{{currentQuestion.type === 'radio'}}" class="radio-area">
+      <radio-group bindchange="onRadioChange">
+        <label class="radio-item" wx:for="{{currentQuestion.options}}" wx:key="value">
+          <radio value="{{item.value}}" color="#667eea" />
+          <text>{{item.label}}</text>
+        </label>
+      </radio-group>
+      <button class="btn-primary next-btn" bindtap="nextStep">下一步</button>
+    </view>
+  </view>
+
+  <!-- 返回按钮 -->
+  <view wx:if="{{step > 1}}" class="back-btn" bindtap="goBack">< 上一步</view>
+</view>
